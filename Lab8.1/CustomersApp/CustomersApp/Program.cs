@@ -23,17 +23,18 @@ namespace customersApp
 
             // Seperate Delegate method
             Console.WriteLine("Customers with name starts with A-K:");
-            var customersStartsWithAtoK = new CustomerFilter(CustomersStartWithAtoK);
+            var p = new Program();
+            var customersStartsWithAtoK = new CustomerFilter(p.CustomersStartWithAtoK);
             // CustomerFilter customersStartsWithAtoK = CustomersStartWithAtoK;
             Display(GetCustomers(customersList, customersStartsWithAtoK));
 
             // Anonymous Delegate
             Console.WriteLine("Customers with name starts with L-Z:");
             Display(GetCustomers(customersList, delegate(Customer customer)
-            {
-                return Regex.IsMatch(customer.Name, @"[L-Z]");
-            }));
-
+                                                {
+                                                    return Regex.IsMatch(customer.Name, "^[L-Z]");
+                                                }
+                                                ));
 
             // Lambda expression
             Console.WriteLine("Customers with ID < 100:");
@@ -41,12 +42,12 @@ namespace customersApp
 
         }
 
-        public static bool CustomersStartWithAtoK(Customer customer)
+        public bool CustomersStartWithAtoK(Customer customer)
         {
-            return Regex.IsMatch(customer.Name, @"[A-K]");
+            return Regex.IsMatch(customer.Name, "^[A-K]");
         }
 
-        public static ICollection<Customer> GetCustomers(ICollection<Customer> customerCollection, CustomerFilter customerFilter)
+        public static IEnumerable<Customer> GetCustomers(IEnumerable<Customer> customerCollection, CustomerFilter customerFilter)
         {
             var list = new List<Customer>();
             foreach (var customer in customerCollection)
@@ -57,9 +58,12 @@ namespace customersApp
                 }
             }
             return list;
+
+            // Alternatively, Using LINQ it's very simple:
+            // return customerCollection.Where(customer => customerFilter(customer)).ToList();
         }
 
-        public static void Display(ICollection<Customer> customers)
+        public static void Display(IEnumerable<Customer> customers)
         {
             foreach (var customer in customers)
             {
