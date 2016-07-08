@@ -1,23 +1,42 @@
-﻿namespace Rationals
+﻿using System;
+using System.Numerics;
+
+//Needs to add a reference to the Assembly System.Numerics
+namespace Rationals
 {
     internal struct Rational
     {
-        public Rational(int numerator, int denomirator)
-        {
-            Numerator = numerator;
-            Denomirator = denomirator == 0 ? 1 : denomirator;
-        }
-
+        public int Numerator { get; private set; }
+        public int Denomirator { get; private set; }
+        public double Value => (double)Numerator / Denomirator;
         public Rational(int numerator)
         {
             Numerator = numerator;
             Denomirator = 1;
         }
-        public int Numerator { get; private set; }
+        public Rational(int numerator, int denomirator)
+        {
+            try
+            {
+                CheckDenomirator(denomirator);
+                Numerator = numerator;
+                Denomirator = denomirator;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Numerator = numerator;
+                Denomirator = 1;
+            }  
+        }
 
-        public int Denomirator { get; private set; }
-
-        public double Value => (double)Numerator / Denomirator;
+        private static void CheckDenomirator(int denomirator)
+        {
+            if (denomirator == 0)
+            {
+                throw new ArgumentException("ArgumentException: Can not be zero.", nameof(denomirator));
+            }
+        }
 
         public static Rational operator +(Rational r1, Rational r2)
         {
@@ -33,7 +52,6 @@
                 return newRational;
             }
         }
-
         public static Rational operator -(Rational r1, Rational r2)
         {
             if (r1.Denomirator == r2.Denomirator)
@@ -48,53 +66,38 @@
                 return newRational;
             }
         }
-
         public static Rational operator *(Rational r1, Rational r2)
         {
             var newRational = new Rational(r1.Numerator * r2.Numerator, r1.Denomirator * r2.Denomirator);
             return newRational;
         }
-
         public static Rational operator /(Rational r1, Rational r2)
         {
             var newRational = new Rational(r1.Numerator * r2.Denomirator, r1.Denomirator * r2.Numerator);
             return newRational;
         }
-
         public static implicit operator double(Rational r)
         {
             return r.Value;
         }
-
         public static explicit operator Rational(int num)
         {
             return new Rational(num);
         }
-
         public override string ToString()
         {
-            return Numerator + "/" + Denomirator;
+            return $"{Numerator}/{Denomirator}";
         }
-
-
         public void Reduce()
         {
             var numerator = Numerator;
-            Numerator /= Gcd(Numerator, Denomirator);
-            Denomirator /= Gcd(numerator, Denomirator);
-        }
-
-        private static int Gcd(int a, int b) // Greatest Common Divisor
-        {
-            while (true)
+            if (Numerator != 0)
             {
-                if (b == 0)
-                {
-                    return a;
-                }
-                var r = a % b;
-                a = b;
-                b = r;
+                Numerator /= (int)BigInteger.GreatestCommonDivisor(Numerator, Denomirator);
+            }
+            if (Denomirator != 0)
+            {
+                Denomirator /= (int)BigInteger.GreatestCommonDivisor(numerator, Denomirator);
             }
         }
     }
