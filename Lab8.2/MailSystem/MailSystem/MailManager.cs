@@ -12,7 +12,6 @@ namespace MailSystem
 
         public void SimulateMailArrived()
         {
-            // render page to printer...
             OnMailArrived(new MailArrivedEventArgs("title", "body"));
         }
         protected virtual void OnMailArrived(MailArrivedEventArgs e)
