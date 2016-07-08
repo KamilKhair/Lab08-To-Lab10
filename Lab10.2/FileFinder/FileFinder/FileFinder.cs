@@ -15,12 +15,19 @@ namespace FileFinder
             }
 
             // Get all files paths from the directory and save into array of strings
-            var files = Directory.GetFiles(args[0], "*");
-            DisplayFiles(FindAllFiles(files, args[1]));
-            
+            string[] allFiles = {};
+            try
+            {
+                allFiles = Directory.GetFiles(args[0], "*");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            DisplayFiles(FindFiles(allFiles, args[1]));
         }
 
-        public static Dictionary<string, int> FindAllFiles(string[] allFiles, string valeToSearch)
+        public static Dictionary<string, int> FindFiles(string[] allFiles, string valeToSearch)
         {
             var files = new Dictionary<string, int>();
             foreach (var file in allFiles)
@@ -37,6 +44,11 @@ namespace FileFinder
 
         public static void DisplayFiles(Dictionary<string, int> files)
         {
+            if (files.Count <= 0)
+            {
+                Console.WriteLine("No files found");
+                return;
+            }
             foreach (var file in files)
             {
                 Console.WriteLine($"File: {file.Key}, Length: {file.Value}");
