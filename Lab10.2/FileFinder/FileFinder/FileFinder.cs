@@ -15,15 +15,18 @@ namespace FileFinder
             }
 
             // Get all files paths from the directory and save into array of strings
-            string[] allFiles = {};
+            string[] allFiles;
             try
             {
                 allFiles = Directory.GetFiles(args[0], "*");
             }
             catch (Exception ex)
             {
+                // Let the user know what went wrong.
                 Console.WriteLine(ex.Message);
+                return;
             }
+            Console.WriteLine("Searching...");
             DisplayFiles(FindFiles(allFiles, args[1]));
         }
 
@@ -32,11 +35,23 @@ namespace FileFinder
             var files = new Dictionary<string, int>();
             foreach (var file in allFiles)
             {
-                var streamReader = new StreamReader(file);
-                var contents = streamReader.ReadToEnd();
-                if (contents.Contains(valeToSearch))
+                try
                 {
-                    files.Add(file, contents.Length);
+                    // Create an instance of StreamReader to read from a file.
+                    // The using statement also closes the StreamReader.
+                    using (var streamReader = new StreamReader(file))
+                    {
+                        var contents = streamReader.ReadToEnd();
+                        if (contents.Contains(valeToSearch))
+                        {
+                            files.Add(file, contents.Length);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Let the user know what went wrong.
+                    Console.WriteLine(ex.Message);
                 }
             }
             return files;
@@ -49,9 +64,10 @@ namespace FileFinder
                 Console.WriteLine("No files found");
                 return;
             }
+            Console.WriteLine(files.Count == 1 ? "1 File has been found:" : $"{files.Count} Files have been found:");
             foreach (var file in files)
             {
-                Console.WriteLine($"File: {file.Key}, Length: {file.Value}");
+                Console.WriteLine($"File: {file.Key}, File Length: {file.Value}");
             }
             Console.WriteLine();
         }
