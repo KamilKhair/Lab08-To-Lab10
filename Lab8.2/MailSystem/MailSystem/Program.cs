@@ -23,6 +23,7 @@ namespace MailSystem
             SetMailManager(mailManager);
 
             // Creating a new System.Threading.Timer object
+            // The using statement also closes the Timer.
             using (new Timer(timerCallback, null, 1000, 1000))
             {
                 Thread.Sleep(10000);
