@@ -21,14 +21,14 @@ namespace DynInvoke
             // Use reflection to get information about all declared public instance 
             // methods of the argument object obj
             var publicMethodsInfo = obj.GetType().GetMethods(BindingFlags.Public 
-                                                                | BindingFlags.Instance 
-                                                                | BindingFlags.DeclaredOnly);
+                                                             | BindingFlags.Instance 
+                                                             | BindingFlags.DeclaredOnly);
 
             // Use reflection to get information about all declared non public instance 
             // methods of the argument object obj
             var nonPublicMethodsInfo = obj.GetType().GetMethods(BindingFlags.NonPublic 
-                                                                    | BindingFlags.Instance 
-                                                                    | BindingFlags.DeclaredOnly);
+                                                                | BindingFlags.Instance 
+                                                                | BindingFlags.DeclaredOnly);
 
             var foundInPublicMethods = false;
             string resultString = null;
@@ -38,7 +38,7 @@ namespace DynInvoke
             foreach (var methodInfo in publicMethodsInfo)
             {
                 if (methodInfo.Name != "Hello") continue;
-                resultString = obj.GetType().GetMethod(methodInfo.Name).Invoke(obj, new object[] {s}) as string;
+                resultString = (string) obj.GetType().GetMethod(methodInfo.Name).Invoke(obj, new object[] {s});
                 foundInPublicMethods = true;
             }
 
@@ -49,7 +49,7 @@ namespace DynInvoke
                 foreach (var methodInfo in nonPublicMethodsInfo)
                 {
                     if (methodInfo.Name != "Hello") continue;
-                    resultString = obj.GetType().GetMethod(methodInfo.Name).Invoke(obj, new object[] { s }) as string;
+                    resultString = (string) obj.GetType().GetMethod(methodInfo.Name).Invoke(obj, new object[] { s });
                 }
             }
 
