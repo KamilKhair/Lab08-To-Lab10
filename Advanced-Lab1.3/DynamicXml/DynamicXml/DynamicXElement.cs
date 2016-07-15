@@ -23,10 +23,10 @@ namespace DynamicXml
             var name = binder.Name;
 
             var element = Element.Element(name);
-
-            if (element != null && element.IsEmpty)
+            if (element == null)
             {
-                return base.TryGetMember(binder, out result);
+                result = null;
+                return false;
             }
             result = new DynamicXElement(element);
             return true;
