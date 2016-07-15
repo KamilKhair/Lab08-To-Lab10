@@ -12,8 +12,8 @@ namespace AttribDemo
             IsApproved = isApproved;
         }
 
-        public string ReviewerName { get; set; }
-        public string ReviewTime { get; set; }
-        public bool IsApproved { get; set; }
+        public string ReviewerName { get;}
+        public string ReviewTime { get;}
+        public bool IsApproved { get;}
     }
 }
