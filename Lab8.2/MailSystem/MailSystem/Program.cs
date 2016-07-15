@@ -29,8 +29,11 @@ namespace MailSystem
                 Thread.Sleep(10000);
             }
 
+            /*********************************************************************************/
             // Alternatively: Implementing the timer callback using a lambda expression:
+
             // var timer = new Timer(o => mailManager.SimulateMailArrived(), null, 1000, 1000);
+            /*********************************************************************************/
         }
 
         private static void Handler(object sender, MailArrivedEventArgs e)

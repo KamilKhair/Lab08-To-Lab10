@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MailSystem
 {
@@ -16,13 +12,12 @@ namespace MailSystem
         }
         protected virtual void OnMailArrived(MailArrivedEventArgs e)
         {
-            // C# 6:
-            // MailArrived?.Invoke(this, e);
-
             if (MailArrived != null)
             {
                 MailArrived(this, e);
             }
+            // C# 6:
+            // MailArrived?.Invoke(this, e);
         }
     }
 
