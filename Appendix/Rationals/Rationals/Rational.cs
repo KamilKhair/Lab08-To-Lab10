@@ -38,6 +38,10 @@ namespace Rationals
             }
         }
 
+        /**
+         Why didn't you just re-use Add, Mul etc?
+             
+             */
         public static Rational operator +(Rational r1, Rational r2)
         {
             if (r1.Denomirator == r2.Denomirator)
@@ -48,7 +52,8 @@ namespace Rationals
             else
             {
                 var denomirator = r1.Denomirator * r2.Denomirator;
-                var newRational = new Rational((denomirator / r2.Denomirator) * r2.Numerator + (denomirator / r1.Denomirator) * r1.Numerator, denomirator);
+                
+                var newRational = new Rational((denomirator / /*Bug: DivideByZeroException*/r2.Denomirator) * r2.Numerator + (denomirator / /*Bug: DivideByZeroException*/r1.Denomirator) * r1.Numerator, denomirator);
                 return newRational;
             }
         }
@@ -62,7 +67,7 @@ namespace Rationals
             else
             {
                 var denomirator = r1.Denomirator * r2.Denomirator;
-                var newRational = new Rational((denomirator / r2.Denomirator) * r2.Numerator - (denomirator / r1.Denomirator) * r1.Numerator, denomirator);
+                var newRational = new Rational((denomirator / /*Bug: DivideByZeroException*/r2.Denomirator) * r2.Numerator - (denomirator / /*Bug: DivideByZeroException*/ r1.Denomirator) * r1.Numerator, denomirator);
                 return newRational;
             }
         }
