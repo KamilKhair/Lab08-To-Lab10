@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -34,15 +35,17 @@ namespace DynamicXml
 
         public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
         {
-            var name = (string)indexes[0];
+            var name = (string)indexes[0];//This might throw an InvalidCastException, or an IndexOutOfRangeException
             var index = (int)indexes[1];
 
-            if (name.GetType() != typeof(string) || index.GetType() != typeof(int) || indexes.Length != 2)
+            //The first two conditions will always be true, provided execution reaches this line
+            if (name.GetType() != typeof(string) || index.GetType() != typeof(int) || indexes.Length != 2 /*and at this point there is no need to check for this condition*/)
             {
                 result = null;
                 return false;
             }
 
+            //What happens if an empty collection is returned? an IndexOutOfRangeException is thrown
             var elements = Element.Elements(name).ToList();
             result = new DynamicXElement(elements.ElementAt(index));
             return true;

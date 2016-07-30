@@ -2,6 +2,12 @@
 
 namespace AttribDemo
 {
+    /**
+    Unless specified, the AttributeUsage attribute disallows decorating the same target more than once
+    It was a requirement that multiple attribute instances would be allowed to decorate a single target
+    Consider :
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
+    */
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
     public class CodeReviewAttribute : Attribute
     {
