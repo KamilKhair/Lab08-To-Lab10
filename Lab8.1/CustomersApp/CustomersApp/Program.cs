@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace customersApp
 {
+    //Really good!
     public class Program
     {
         public static void Main(string[] args)
@@ -44,9 +45,11 @@ namespace customersApp
 
         public bool CustomersStartWithAtoK(Customer customer)
         {
+            //Nice. Though you forgot small letters: "^[A-Ka-k]"
             return Regex.IsMatch(customer.Name, "^[A-K]");
         }
 
+        //It is awesome that you knew to use IEnumerable, but why didn't you use yield?
         public static IEnumerable<Customer> GetCustomers(IEnumerable<Customer> customerCollection, CustomerFilter customerFilter)
         {
             var list = new List<Customer>();
@@ -63,6 +66,7 @@ namespace customersApp
             // return customerCollection.Where(customer => customerFilter(customer)).ToList();
         }
 
+        //Great
         public static void Display(IEnumerable<Customer> customers)
         {
             foreach (var customer in customers)
