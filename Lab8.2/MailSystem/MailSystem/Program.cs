@@ -6,6 +6,7 @@ namespace MailSystem
 {
     internal class Program
     {
+        //consider a better name
         private static MailManager _m;
         internal static void Main()
         {
